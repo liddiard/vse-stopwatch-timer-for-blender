@@ -84,7 +84,7 @@ shadow_color = (0,0,0,1)                   # Default: (0,0,0,1)                #
 
 font = None
 if font_path is not None:
-    font = bpy.data.fonts.load('/System/Library/Fonts/HelveticaNeue.ttc')
+    font = bpy.data.fonts.load(font_path)
 
 # function to convert floating point number of seconds to hh:mm:ss.sss
 def secondsToStr(t):                                                           
