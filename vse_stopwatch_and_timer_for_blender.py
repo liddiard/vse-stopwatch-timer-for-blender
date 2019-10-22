@@ -60,7 +60,7 @@ import math
 
 #---------------------------- [ USER PREFERENCES ] ----------------------------
                                                                                
-count_down_to_zero = False                 # (Default: False) [True, False]    #  | False = Stopwatch (Count up, starting from zero), True = Timer (Count down to zero)             
+count_down_to_zero = True                 # (Default: False) [True, False]    #  | False = Stopwatch (Count up, starting from zero), True = Timer (Count down to zero)             
 put_in_meta_strip = True                   # (Default: True) [True, False]     #  | It's much easier to manipulate as a single Meta Strip
                                                                   
 #Time Format
@@ -68,18 +68,23 @@ show_start_and_end_zero_timestamp = True   # (Default: True) [True, False]     #
 show_hours = True                          # (Default: True) [True, False]
 show_minutes = True                        # (Default: True) [True, False]
 show_seconds = True                        # (Default: True) [True, False]
-show_milliseconds = True                   # (Default: True) [True, False] 
+show_milliseconds = False                  # (Default: False) [True, False] 
 
 #display milliseconds as frames - like the VSE                                 #  | This requires that show_milliseconds = True
 milliseconds_to_frames = False             # (Default: False) [True, False]
 
 #Time Color, Style, Size
+font_path = None                           # replace with path to font on filesystem
 time_font_size = 200                       # (Default: True) [int value] 
 time_color = (1,1,1,1)                     # Default: (1,1,1,1)                #  | (Red, Green, Blue, Alpha) uses floating point color values 
-shadow = True                              # (Default: True) [True, False]    
+shadow = False                             # (Default: False) [True, False]    
 shadow_color = (0,0,0,1)                   # Default: (0,0,0,1)                #  | (Red, Green, Blue, Alpha) uses floating point color values 
 
 #-------------------------------------------------------------------------------
+
+font = None
+if font_path is not None:
+    font = bpy.data.fonts.load('/System/Library/Fonts/HelveticaNeue.ttc')
 
 # function to convert floating point number of seconds to hh:mm:ss.sss
 def secondsToStr(t):                                                           
@@ -168,6 +173,8 @@ while start_at_frame <= (end_frame_of_project + add_project_frames):
     seq.sequences[main_seq_name].color = time_color
     seq.sequences[main_seq_name].use_shadow = shadow
     seq.sequences[main_seq_name].shadow_color = shadow_color
+    if font is not None:
+        seq.sequences[main_seq_name].font = font
 
     if count_down_to_zero: 
         new_time_per_frame = new_time_per_frame - time_per_frame               # decrement for next pass
